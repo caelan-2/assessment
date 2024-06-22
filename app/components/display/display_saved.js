@@ -3,62 +3,27 @@ import { useEffect, useState } from "react";
 
 export default function DisplaySaved({ selectedModel }) {
   const [searchText, setSearchText] = useState("");
-  const [collection, setCollection] = useState("single");
   const [decisions, setDecisions] = useState(null);
-  const [batches, setBatches] = useState(null);
   function search() {
-    let body = { "save-name": searchText };
-    if (collection === "single") {
-      body["model"] = selectedModel.id;
-    }
-    fetch(url.localApiEndpoint(`${collection}/load`), {
+    fetch(url.localApiEndpoint(`single/load`), {
       method: "POST",
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        "save-name": searchText,
+        model: selectedModel.id,
+      }),
     })
       .then((res) => res.json())
       .then((payload) => {
-        switch (collection) {
-          case "single":
-            setDecisions(payload.data);
-            break;
-          case "batch":
-            setBatches(payload.data);
-            break;
-          default:
-            console.error("Unknown collection: " + collection);
-            return;
-        }
+        setDecisions(payload.data);
       });
   }
   useEffect(() => {
     search();
-  }, [collection, selectedModel]);
+  }, [selectedModel]);
   return (
     <div className="w-full h-full">
-      {collection === "single" ? (
-        <div>
-          Use the 'Model' select on the left to choose a model to search from.
-        </div>
-      ) : (
-        <div>
-          'Model' on the left does not have an impact on 'Batch' search.
-        </div>
-      )}
-      <div role="tablist" className="tabs tabs-boxed mt-2">
-        <a
-          role="tab"
-          className={collection === "single" ? "tab tab-active" : "tab"}
-          onClick={() => setCollection("single")}
-        >
-          Single
-        </a>
-        <a
-          role="tab"
-          className={collection === "batch" ? "tab tab-active" : "tab"}
-          onClick={() => setCollection("batch")}
-        >
-          Batch
-        </a>
+      <div>
+        Use the 'Model' select on the left to choose a model to search from.
       </div>
       <label className="form-control my-1">
         <div className="label pb-0">
@@ -85,8 +50,6 @@ export default function DisplaySaved({ selectedModel }) {
         </form>
       </label>
       <ItemsComponent
-        batches={batches}
-        collection={collection}
         decisions={decisions}
         selectedModel={selectedModel}
       ></ItemsComponent>
@@ -94,76 +57,30 @@ export default function DisplaySaved({ selectedModel }) {
   );
 }
 
-function ItemsComponent({ decisions, batches, collection, selectedModel }) {
-  switch (collection) {
-    case "single":
-      if (!decisions || decisions.length === 0) {
-        return (
-          <div>Nothing found for model: {selectedModel.attributes.name}</div>
-        );
-      }
-      return (
-        <div>
-          {decisions?.map((decision) => {
-            return (
-              <SingleItem key={decision._id} decision={decision}></SingleItem>
-            );
-          })}
-        </div>
-      );
-    case "batch":
-      if (!batches || batches.length === 0) {
-        return <div>Nothing found</div>;
-      }
-      return (
-        <div>
-          {batches?.map((batchInfo) => {
-            return (
-              <BatchItem key={batchInfo._id} batchInfo={batchInfo}></BatchItem>
-            );
-          })}
-        </div>
-      );
-    default:
-      return <div>Unknown collection: {collection}</div>;
+function ItemsComponent({ decisions, selectedModel }) {
+  if (!decisions || decisions.length === 0) {
+    return <div>Nothing found for model: {selectedModel.attributes.name}</div>;
   }
+  return (
+    <div>
+      {decisions?.map((decision) => {
+        return <SingleItem key={decision._id} decision={decision}></SingleItem>;
+      })}
+    </div>
+  );
 }
 
 function SingleItem({ decision }) {
   return (
-    <div className="card w-full bg-base-100 shadow-xl mt-4 p-0">
+    <div className="card card-compact w-full bg-base-100 shadow-xl mt-4 p-0">
       <div className="card-body">
         <h2 className="card-title">{decision["save-name"]}</h2>
         <div>Decision: {decision.attributes.decision}</div>
         <div>Confidence: {decision.attributes.confidence}</div>
         <div>Timestamp: {decision.attributes.timestamp}</div>
-      </div>
-    </div>
-  );
-}
-
-function BatchItem({ batchInfo }) {
-  console.log("batchInfo:", batchInfo);
-  return (
-    <div className="card w-full bg-base-100 shadow-xl mt-4 p-0">
-      <div className="card-body">
-        <h2 className="card-title">{batchInfo["save-name"]}</h2>
-        {batchInfo.jobs.map((job) => {
-          return (
-            <div
-              key={job._id}
-              className="card w-full bg-base-200 shadow-xl my-2 p-0"
-            >
-              <div className="card-body">
-                <h2 className="card-title">{job.filename}</h2>
-                <div>ID: {job.id}</div>
-                <div>Size: {job.size}</div>
-                <div>Progress: {job.progress}</div>
-                <div>Upload Date: {job.uploaded}</div>
-              </div>
-            </div>
-          );
-        })}
+        <div className="card-actions justify-end">
+          <button className="btn btn-sm btn-error">Delete</button>
+        </div>
       </div>
     </div>
   );

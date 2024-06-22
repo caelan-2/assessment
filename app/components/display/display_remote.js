@@ -113,12 +113,12 @@ function Items({ selectedTab, files, jobs }) {
 
 function FileItem({ file }) {
   return (
-    <div className="card w-full bg-base-100 shadow-xl mt-4 p-0">
+    <div className="card card-compact w-full bg-base-100 shadow-xl mt-4 p-0">
       <div className="card-body">
         <h2 className="card-title">{file["save-name"]}</h2>
         <div
           key={file.id}
-          className="card w-full bg-base-200 shadow-xl my-2 p-0"
+          className="card card-compact w-full bg-base-200 shadow-xl my-2 p-0"
         >
           <div className="card-body">
             <h2 className="card-title">{file.filename}</h2>
@@ -136,6 +136,9 @@ function FileItem({ file }) {
                 })}
               </div>
             ) : null}
+            <div className="card-actions justify-end">
+              <button className="btn btn-sm btn-error">Delete</button>
+            </div>
           </div>
         </div>
       </div>
@@ -145,14 +148,14 @@ function FileItem({ file }) {
 
 function JobItem({ jobInfo }) {
   return (
-    <div className="card w-full bg-base-100 shadow-xl mt-4 p-0">
+    <div className="card card-compact w-full bg-base-100 shadow-xl mt-4 p-0">
       <div className="card-body">
         <h2 className="card-title">{jobInfo["save-name"]}</h2>
         {jobInfo?.jobs?.map((job) => {
           return (
             <div
               key={job._id}
-              className="card w-full bg-base-200 shadow-xl my-2 p-0"
+              className="card card-compact w-full bg-base-200 shadow-xl my-2 p-0"
             >
               <div className="card-body">
                 <h2 className="card-title">{job.filename}</h2>

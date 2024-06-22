@@ -1,4 +1,3 @@
-import * as constants from "@/app/constants";
 import Single from "./input_single";
 import Batch from "./input_batch";
 export default function InputContainer({
@@ -8,7 +7,7 @@ export default function InputContainer({
   setBatchResult,
 }) {
   switch (selectedTab) {
-    case constants.TAB_SINGLE:
+    case "single":
       return (
         <Single
           setDecision={setDecision}
@@ -16,7 +15,7 @@ export default function InputContainer({
         ></Single>
       );
 
-    case constants.TAB_BATCH:
+    case "batch":
       return (
         <Batch
           setBatchResult={setBatchResult}
@@ -24,13 +23,7 @@ export default function InputContainer({
         ></Batch>
       );
 
-    case constants.TAB_SAVED:
-      return null;
-
-    case constants.TAB_REMOTE:
-      return null;
-
     default:
-      return <div>unknown mode...</div>;
+      return null;
   }
 }

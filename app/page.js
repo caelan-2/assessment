@@ -4,13 +4,13 @@ import * as util from "@/app/util/util.js";
 
 import DisplayContainer from "./components/display/display.js";
 import InputContainer from "./components/input/input.js";
-import * as constants from "./constants.js";
 import * as url from "./url/url.js";
+import Tabs from "./components/common/tabs.js";
 
 export default function Page() {
   // tab
   // -----------------------------------------------------------------------------------------------
-  const [selectedTab, setSelectedTab] = useState(constants.TAB_SINGLE);
+  const [selectedTab, setSelectedTab] = useState("single");
 
   // models
   // -----------------------------------------------------------------------------------------------
@@ -23,6 +23,7 @@ export default function Page() {
   // -----------------------------------------------------------------------------------------------
   const [batchResult, setBatchResult] = useState(null);
   const [decision, setDecision] = useState(null);
+  const [prevSavedDecisionID, setPrevSavedDecisionID] = useState("");
 
   // initialization
   // -----------------------------------------------------------------------------------------------
@@ -43,8 +44,17 @@ export default function Page() {
   return (
     <div className="flex flex-row">
       <div className="flex flex-col w-1/2 p-4 pb-0">
-        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}></Tabs>
-        <div className="card w-full bg-base-100 shadow-xl px-4">
+        <Tabs
+          tabs={[
+            { id: "single", name: "New Decision" },
+            { id: "saved", name: "Saved Decisions" },
+            { id: "batch", name: "New Batch" },
+            { id: "remote", name: "Active Batches" },
+          ]}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        ></Tabs>
+        <div className="card card-compact w-full bg-base-100 shadow-xl px-4">
           <label className="form-control my-1">
             <div className="label pb-0">
               <span className="label-text">Model</span>
@@ -84,6 +94,8 @@ export default function Page() {
           selectedTab={selectedTab}
           decision={decision}
           batchResult={batchResult}
+          prevSavedDecisionID={prevSavedDecisionID}
+          setPrevSavedDecisionID={setPrevSavedDecisionID}
         ></DisplayContainer>
       </div>
     </div>
@@ -117,47 +129,4 @@ function handleSelectModel(modelID, setSelectedModelFn) {
     .then((payload) => {
       setSelectedModelFn(payload.data);
     });
-}
-
-function Tabs({ selectedTab, setSelectedTab }) {
-  return (
-    <div role="tablist" className="tabs tabs-boxed">
-      <a
-        role="tab"
-        className={
-          selectedTab === constants.TAB_SINGLE ? "tab tab-active" : "tab"
-        }
-        onClick={() => setSelectedTab(constants.TAB_SINGLE)}
-      >
-        Single
-      </a>
-      <a
-        role="tab"
-        className={
-          selectedTab === constants.TAB_BATCH ? "tab tab-active" : "tab"
-        }
-        onClick={() => setSelectedTab(constants.TAB_BATCH)}
-      >
-        Batch
-      </a>
-      <a
-        role="tab"
-        className={
-          selectedTab === constants.TAB_SAVED ? "tab tab-active" : "tab"
-        }
-        onClick={() => setSelectedTab(constants.TAB_SAVED)}
-      >
-        Saved
-      </a>
-      <a
-        role="tab"
-        className={
-          selectedTab === constants.TAB_REMOTE ? "tab tab-active" : "tab"
-        }
-        onClick={() => setSelectedTab(constants.TAB_REMOTE)}
-      >
-        Remote
-      </a>
-    </div>
-  );
 }

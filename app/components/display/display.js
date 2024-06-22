@@ -1,4 +1,3 @@
-import * as constants from "@/app/constants";
 import DisplayBatch from "./display_batch";
 import DisplaySingle from "./display_single";
 import DisplaySaved from "./display_saved";
@@ -9,32 +8,38 @@ export default function DisplayContainer({
   selectedModel,
   decision,
   batchResult,
+  prevSavedDecisionID,
+  setPrevSavedDecisionID,
 }) {
   switch (selectedTab) {
-    case constants.TAB_SINGLE:
+    case "single":
       return (
         <Display data={decision}>
-          <DisplaySingle decision={decision}></DisplaySingle>
+          <DisplaySingle
+            prevSavedDecisionID={prevSavedDecisionID}
+            setPrevSavedDecisionID={setPrevSavedDecisionID}
+            decision={decision}
+          ></DisplaySingle>
         </Display>
       );
 
-    case constants.TAB_BATCH:
+    case "batch":
       return (
         <Display data={batchResult}>
           <DisplayBatch batchResult={batchResult}></DisplayBatch>
         </Display>
       );
 
-    case constants.TAB_SAVED:
+    case "saved":
       return (
-        <Display data={"hi"}>
+        <Display data={{}}>
           <DisplaySaved selectedModel={selectedModel}></DisplaySaved>
         </Display>
       );
 
-    case constants.TAB_REMOTE:
+    case "remote":
       return (
-        <Display data={"hi"}>
+        <Display data={{}}>
           <DisplayRemote selectedModel={selectedModel}></DisplayRemote>
         </Display>
       );
