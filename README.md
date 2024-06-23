@@ -7,7 +7,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Clone this repository:
 
 ```bash
-git clone https://todo.todo.com
+git clone https://github.com/caelan-2/assessment.git
 ```
 
 ## Setup
