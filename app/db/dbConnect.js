@@ -4,7 +4,10 @@
 
 import mongoose from "mongoose";
 
-const MONGODB_URI = "mongodb://127.0.0.1:27017/assessment";
+const MONGODB_URI =
+  process.env.ASSESSMENT_MONGO_URL +
+  "/" +
+  process.env.ASSESSMENT_COLLECTION_NAME;
 
 let cached = global.mongoose;
 

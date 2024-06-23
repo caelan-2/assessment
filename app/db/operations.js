@@ -13,7 +13,7 @@ export async function SaveDecision(decision) {
 
 export async function LoadDecision(query) {
   await dbConnect();
-  const regex = new RegExp(`^${query["save-name"]}`);
+  const regex = new RegExp(`${query["save-name"]}`);
   return await Decision.find({
     "save-name": regex,
     "attributes.model": query.model,
