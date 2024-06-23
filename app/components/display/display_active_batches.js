@@ -86,7 +86,7 @@ export default function DisplayActiveBatches({ selectedModel }) {
       ></Tabs>
       <label className="form-control my-1">
         <div className="label pb-0">
-          <span className="label-text">What would you like to find?</span>
+          <span className="label-text">Filter results</span>
         </div>
         <form
           id="search-remote-form"
@@ -100,7 +100,7 @@ export default function DisplayActiveBatches({ selectedModel }) {
               onChange={(e) => setSearchText(e.target.value)}
               type="text"
               className="grow"
-              placeholder="Enter name or regular expression here..."
+              placeholder="Enter filename or regular expression here..."
             />
             <button type="submit" className="btn btn-sm">
               Search
@@ -109,7 +109,12 @@ export default function DisplayActiveBatches({ selectedModel }) {
         </form>
       </label>
       <div className="flex flex-row mt-4 px-4 justify-between">
-        Searching for batches from model '{selectedModel?.attributes?.name}''
+        <span>
+          Viewing batches for model:{" "}
+          <span className="text-primary">
+            {selectedModel?.attributes?.name}
+          </span>
+        </span>
         <button className="btn btn-sm" onClick={() => retrieve(true)}>
           Refresh
         </button>

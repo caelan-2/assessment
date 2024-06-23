@@ -28,11 +28,12 @@ export default function DisplaySavedDecisions({ selectedModel }) {
   return (
     <div className="w-full h-full mt-4">
       <div>
-        Use the 'Model' select on the left to choose a model to search from.
+        Viewing decisions for model:{" "}
+        <span className="text-primary">{selectedModel?.attributes?.name}</span>
       </div>
       <label className="form-control my-1">
         <div className="label pb-0">
-          <span className="label-text">What would you like to find?</span>
+          <span className="label-text">Filter decisions</span>
         </div>
         <form
           id="search-database-form"
@@ -49,7 +50,7 @@ export default function DisplaySavedDecisions({ selectedModel }) {
               placeholder="Enter name or regular expression here..."
             />
             <button type="submit" className="btn btn-sm">
-              Search
+              Filter
             </button>
           </label>
         </form>
@@ -65,7 +66,11 @@ export default function DisplaySavedDecisions({ selectedModel }) {
 
 function ItemsContainer({ decisions, selectedModel, search }) {
   if (!decisions || decisions.length === 0) {
-    return <div>Nothing found for model: {selectedModel.attributes.name}</div>;
+    return (
+      <div className="mt-4">
+        Nothing found for model: {selectedModel.attributes.name}
+      </div>
+    );
   }
   return (
     <div>

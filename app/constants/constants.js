@@ -3,5 +3,5 @@ export const MAIN_TABS = Object.freeze({
   NEW_DECISION: { id: "new_decision", label: "New Decision" },
   SAVED_DECISIONS: { id: "saved_decisions", label: "Saved Decisions" },
   NEW_BATCH: { id: "new_batch", label: "New Batch" },
-  ACTIVE_BATCHES: { id: "active_batches", label: "Active Batches" },
+  ACTIVE_BATCHES: { id: "processed_batches", label: "Processed Batches" },
 });

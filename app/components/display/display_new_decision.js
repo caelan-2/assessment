@@ -5,6 +5,7 @@ import * as url from "@/app/url/url";
 // this is used to display the result of a decision request made to the TOM API.
 // it also allows saving the result to the DB.
 export default function DisplayNewDecision({
+  selectedModel,
   decision,
   prevSavedDecisionID,
   setPrevSavedDecisionID,
@@ -38,20 +39,34 @@ export default function DisplayNewDecision({
     setHideSaveBtn(false);
   }, [prevSavedDecisionID, decision]);
   return (
-    <div className="card card-compact w-full bg-base-100 shadow-xl my-2 p-0">
-      <div className="card-body">
-        <h2 className="card-title">Decision Made</h2>
-        <div>Decision: {decision?.data?.attributes?.decision}</div>
-        <div>Confidence: {decision?.data?.attributes?.confidence}</div>
-        <div>Timestamp: {decision?.data?.attributes?.timestamp}</div>
-        <SaveForm
-          handleSubmit={(e) => {
-            e.preventDefault();
-            save();
-          }}
-          setSaveName={setSaveName}
-          hideSaveBtn={hideSaveBtn}
-        ></SaveForm>
+    <div className="w-full">
+      <div className="text-xl m-2">
+        Decision Made by Model:{" "}
+        <span className="text-primary">{selectedModel?.attributes?.name}</span>
+      </div>
+      <div className="card card-compact w-full bg-base-100 shadow-xl my-2 p-0">
+        <div className="card-body">
+          <h2 className="card-title">
+            <span className="text-gray-400">Decision:</span>{" "}
+            {decision?.data?.attributes?.decision}
+          </h2>
+          <div>
+            <span className="text-gray-400">Confidence:</span>{" "}
+            {decision?.data?.attributes?.confidence}
+          </div>
+          <div>
+            <span className="text-gray-400">Timestamp:</span>{" "}
+            {decision?.data?.attributes?.timestamp}
+          </div>
+          <SaveForm
+            handleSubmit={(e) => {
+              e.preventDefault();
+              save();
+            }}
+            setSaveName={setSaveName}
+            hideSaveBtn={hideSaveBtn}
+          ></SaveForm>
+        </div>
       </div>
     </div>
   );

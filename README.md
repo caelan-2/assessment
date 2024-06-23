@@ -4,25 +4,30 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-Clone this repository:
-
-```bash
-git clone https://github.com/caelan-2/assessment.git
-```
-
-## Setup
-
-To run the app the following software is required:
+The following software is required:
 - NodeJS + npm [https://nodejs.org/en/download/package-manager]
 - MongoDB Community Edition [https://www.mongodb.com/docs/manual/administration/install-community/]
 - (OPTIONAL) Go [https://go.dev/doc/install]
 
 After installing the required software, start MongoDB:
-- Note: The instructions for starting MongoDB are available within the MongoDB install link above.
+- Note: The instructions for starting MongoDB are available within the MongoDB link above.
 
-## Build
+## Setup
 
-### Building with Go
+Navigate to the directory where you would like to clone the repository.
+Then clone this repository:
+
+```bash
+git clone https://github.com/caelan-2/assessment.git
+```
+
+Then change directory to the project:
+
+```bash
+cd assessment
+```
+
+## Building with Go
 
 First, run:
 
@@ -48,9 +53,10 @@ To use custom configuration, run:
 ./main -db=<enter-mongo-url> -table=<enter-collection-name>
 ```
 
-### Building without Go
+## Building without Go
 
-(OPTIONAL) To use custom configuration, edit the .env file:
+Note: this step is optional.
+To use custom configuration, edit the .env file:
 
 ```bash
 ASSESSMENT_MONGO_URL=<enter-mongo-url>

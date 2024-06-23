@@ -19,6 +19,7 @@ export default function DisplayContainer({
       return (
         <Display data={decision}>
           <DisplayNewDecision
+            selectedModel={selectedModel}
             prevSavedDecisionID={prevSavedDecisionID}
             setPrevSavedDecisionID={setPrevSavedDecisionID}
             decision={decision}
