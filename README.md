@@ -10,7 +10,7 @@ The following software is required:
 - (OPTIONAL) Go [https://go.dev/doc/install]
 
 After installing the required software, start MongoDB:
-- Note: The instructions for starting MongoDB are available within the MongoDB link above.
+- Note: The instructions for starting MongoDB are available within the [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) link above.
 
 ## Setup
 
@@ -27,40 +27,16 @@ Then change directory to the project:
 cd assessment
 ```
 
-## Building with Go
+## Building
 
-First, run:
-
-```bash
-go build main.go
-```
-
-To start the app with the default configuration, run:
-
-```bash
-./main
-```
-
-To view configuration info, run:
-
-```bash
-./main --help
-```
-
-To use custom configuration, run:
-
-```bash
-./main -db=<enter-mongo-url> -table=<enter-collection-name>
-```
-
-## Building without Go
+To use custom configuration, edit the .env file:
 
 Note: this step is optional.
-To use custom configuration, edit the .env file:
 
 ```bash
 ASSESSMENT_MONGO_URL=<enter-mongo-url>
 ASSESSMENT_COLLECTION_NAME=<enter-collection-name>
+NEXT_PUBLIC_ASSESSMENT_API_TOKEN=<enter-file-name>
 ```
 
 Then, run:
@@ -74,3 +50,40 @@ To start the app, run:
 ```bash
 npm run start
 ```
+
+## Building with Go (OPTIONAL)
+
+First, run:
+
+```bash
+go build main.go
+```
+
+Executing the generated binary will start the app.
+
+To start the app with the default configuration, execute the binary without any options. For example:
+
+```bash
+./main
+```
+
+To view configuration info, execute the binary with the '--help' option. For example:
+
+```bash
+./main --help
+```
+
+To use custom configuration, execute the binary with the desired config options:
+
+```bash
+./main -mongo-url=<enter-mongo-url> -table=<enter-table-name> -token-file=<enter-token-file>
+```
+
+- -mongo-url: is the URL for the MongoDB instance to be used. (default: "mongodb://127.0.0.1:27017")
+- -table: is the name of the collection (table) to be used by the app. (default: "caelan-assessment")
+- -token-file: is the name of the file that contains the API authorization token. (default: "api-token")
+- -nobuild: is used to skip the build step, this is useful if the build step has already been run.
+
+NOTE: The provided token in this repository is a demo token. Providing your own token file or editing the provided token file with a valid token is required for non-demo use.
+
+NOTE: The token file must be within the project root directory: 'assessment'.

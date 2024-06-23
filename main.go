@@ -19,7 +19,7 @@ var (
 func main() {
 	flag.StringVar(&mongoURL, "mongo-url", mongoURL, "URL of the MongoDB instance.")
 	flag.StringVar(&collectionName, "table", collectionName, "MongoDB collection (table) to use.")
-	flag.StringVar(&apiTokenFile, "tokenfile", apiTokenFile, "API authorization token file.")
+	flag.StringVar(&apiTokenFile, "token-file", apiTokenFile, "API authorization token file.")
 	flag.BoolVar(&noBuild, "nobuild", noBuild, "Skip the 'npm install' and 'npm run build' steps and only run the 'npm run start' step.")
 	flag.Parse()
 	var err error
