@@ -1,9 +1,16 @@
 import { useState } from "react";
 import * as util from "@/app/util/util";
 import * as url from "@/app/url/url";
-export default function Batch({ selectedModel, setBatchResult }) {
+
+// InputNewBatch is a component that is nested in the InputContainer.
+// this is used to provide user input for making a request to the TOM API
+// for a batch upload.
+export default function InputNewBatch({ selectedModel, setBatchResult }) {
+  // batchFile stores the selected file to be uploaded.
   const [batchFile, setBatchFile] = useState(null);
+  // delimiter stores the user-entered CSV delimiter.
   const [delimiter, setDelimiter] = useState(",");
+  // requestBatch makes the request via the proxy route.
   function requestBatch() {
     const form = new FormData();
     form.append("file", batchFile);
@@ -20,7 +27,6 @@ export default function Batch({ selectedModel, setBatchResult }) {
         return res.json();
       })
       .then((payload) => {
-        console.log("Batch result payload: ", payload);
         setBatchResult(payload);
       });
   }

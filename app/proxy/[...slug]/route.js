@@ -1,8 +1,12 @@
+/**
+ * Proxy route is used to make requests on behalf of the browser to the TOM API.
+ */
+
 import * as url from "@/app/url/url";
 
+// handle proxying POST requests.
 export async function POST(request) {
   const targetUrl = url.convertProxyUrl(request.url);
-  console.log("POST targetUrl", targetUrl);
   let req = new Request(targetUrl, request);
   let response;
   await fetch(req)
@@ -13,9 +17,9 @@ export async function POST(request) {
   return Response.json(response);
 }
 
+// handle proxying GET requests.
 export async function GET(request) {
   const targetUrl = url.convertProxyUrl(request.url);
-  console.log("GET targetUrl", targetUrl);
   let req = new Request(targetUrl, request);
   let response;
   await fetch(req)

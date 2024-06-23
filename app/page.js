@@ -1,28 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
-import * as util from "@/app/util/util.js";
+import * as util from "./util/util.js";
+import * as url from "./url/url.js";
+import * as constants from "./constants/constants.js";
 
 import DisplayContainer from "./components/display/display.js";
 import InputContainer from "./components/input/input.js";
-import * as url from "./url/url.js";
 import Tabs from "./components/common/tabs.js";
 
 export default function Page() {
-  // tab
+  // state
   // -----------------------------------------------------------------------------------------------
-  const [selectedTab, setSelectedTab] = useState("single");
 
-  // models
-  // -----------------------------------------------------------------------------------------------
-  // availableModels is used to store a list of available models.
+  // selectedTab stores the active tab.
+  const [selectedTab, setSelectedTab] = useState(
+    constants.MAIN_TABS.NEW_DECISION.id
+  );
+  // availableModels stores the list of models that can be accessed for operations.
   const [availableModels, setAvailableModels] = useState([]);
-  // selectedModel is used to store the currently selected model.
+  // selectedModel stores the currently active model.
   const [selectedModel, setSelectedModel] = useState({});
-
-  // results
-  // -----------------------------------------------------------------------------------------------
+  // batchResult stores the most recent response from a batch request.
   const [batchResult, setBatchResult] = useState(null);
+  // decision stores the most recent response from a decision request.
   const [decision, setDecision] = useState(null);
+  // prevSavedDecisionID store the decision ID for the most recently saved decision (saved to DB).
   const [prevSavedDecisionID, setPrevSavedDecisionID] = useState("");
 
   // initialization
@@ -45,12 +47,7 @@ export default function Page() {
     <div className="flex flex-row">
       <div className="flex flex-col w-1/2 p-4 pb-0">
         <Tabs
-          tabs={[
-            { id: "single", name: "New Decision" },
-            { id: "saved", name: "Saved Decisions" },
-            { id: "batch", name: "New Batch" },
-            { id: "remote", name: "Active Batches" },
-          ]}
+          tabs={constants.MAIN_TABS}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         ></Tabs>
@@ -102,7 +99,15 @@ export default function Page() {
   );
 }
 
+// modelCache is used to store model data locally to avoid unnecessary requests.
 const modelCache = {};
+
+// addModelToCache adds/replaces a single model in the cache.
+function addModelToCache(model) {
+  modelCache[model.id] = model;
+}
+
+// updateModelCache clears the cache, and populates it with the provided models.
 function updateModelCache(models) {
   for (var id in modelCache) {
     delete modelCache[id];
@@ -111,6 +116,9 @@ function updateModelCache(models) {
     modelCache[model.id] = model;
   });
 }
+
+// handleSelectModel attempts to get a model from the cache,
+// if not in cache, makes a request to get the model data and adds it to the cache.
 function handleSelectModel(modelID, setSelectedModelFn) {
   if (modelCache[modelID]) {
     setSelectedModelFn(modelCache[modelID]);
@@ -127,6 +135,7 @@ function handleSelectModel(modelID, setSelectedModelFn) {
   )
     .then((res) => res.json())
     .then((payload) => {
+      addModelToCache(payload.data);
       setSelectedModelFn(payload.data);
     });
 }

@@ -1,3 +1,7 @@
+/**
+ * This file handles making a connection from Mongoose to a local MongoDB instance.
+ */
+
 import mongoose from "mongoose";
 
 const MONGODB_URI = "mongodb://127.0.0.1:27017/assessment";
@@ -8,7 +12,7 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-async function dbConnect() {
+export default async function dbConnect() {
   if (cached.conn) {
     return cached.conn;
   }
@@ -29,5 +33,3 @@ async function dbConnect() {
 
   return cached.conn;
 }
-
-export default dbConnect;

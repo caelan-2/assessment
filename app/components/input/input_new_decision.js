@@ -2,13 +2,19 @@ import { useState } from "react";
 import * as util from "@/app/util/util";
 import * as url from "@/app/url/url";
 
-export default function Single({ selectedModel, setDecision }) {
+// InputNewDecision is a component that is nested in the InputContainer.
+// this is used to provide user input for making a request to the TOM API
+// for a single decision.
+export default function InputNewDecision({ selectedModel, setDecision }) {
+  // formState stores each field in the form.
   const [formState, setFormState] = useState({});
+  // updateFormField updates a single field in the form.
   function updateFormField(fieldName, fieldValue) {
     const updated = formState;
     updated[fieldName] = fieldValue;
     setFormState(updated);
   }
+  // requestDecision makes the requst to the TOM API.
   function requestDecision() {
     fetch(
       url.remoteApiEndpoint(`decision/${selectedModel.id}`),
@@ -29,7 +35,7 @@ export default function Single({ selectedModel, setDecision }) {
   }
   return (
     <form
-      id="input-single-form"
+      id="input-new-decision-form"
       className="flex flex-col p-4"
       onSubmit={(e) => {
         e.preventDefault();
@@ -54,10 +60,12 @@ export default function Single({ selectedModel, setDecision }) {
   );
 }
 
+// These constants are used to prevent accidental typos.
 const ATTR_TYPE_NOMINAL = "Nominal";
 const ATTR_TYPE_ORDINAL = "Ordinal";
 const ATTR_TYPE_CONTINUOUS = "Continuous";
 
+// FormInput is a single input field in the form.
 function FormInput({ inputVar, updateFormField }) {
   const ID = inputVar.name;
   const question = inputVar.question;

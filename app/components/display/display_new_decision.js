@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import * as url from "@/app/url/url";
 
-export default function DisplaySingle({
+// DisplayNewDecision is a component that is nested in the DisplayContainer.
+// this is used to display the result of a decision request made to the TOM API.
+// it also allows saving the result to the DB.
+export default function DisplayNewDecision({
   decision,
   prevSavedDecisionID,
   setPrevSavedDecisionID,
 }) {
+  // saveName stores the name entered by the user which is used to look up saved decisions in the DB.
   const [saveName, setSaveName] = useState("");
+  // hideSaveBtn is used to prevent saving the same decision twice.
   const [hideSaveBtn, setHideSaveBtn] = useState(false);
+  // save makes the request to save the decision to the DB.
   function save() {
     let obj = {
       ...decision,
@@ -16,7 +22,7 @@ export default function DisplaySingle({
         "save-name": saveName,
       },
     };
-    fetch(url.localApiEndpoint("single/save"), {
+    fetch(url.localApiEndpoint("save"), {
       method: "POST",
       body: JSON.stringify(obj),
     }).then(() => {
@@ -51,12 +57,13 @@ export default function DisplaySingle({
   );
 }
 
+// SaveForm is a form used to allow the user to save the decision results to the DB.
 function SaveForm({ handleSubmit, setSaveName, hideSaveBtn }) {
   if (hideSaveBtn) {
     return <div className="text-green-500 text-xl ml-2">Saved!</div>;
   }
   return (
-    <form id="save-single-form" onSubmit={handleSubmit}>
+    <form id="display-new-decision-form" onSubmit={handleSubmit}>
       <label className="form-control my-1">
         <div className="label pb-0">
           <span className="label-text">
@@ -69,6 +76,7 @@ function SaveForm({ handleSubmit, setSaveName, hideSaveBtn }) {
           type="text"
           className="input input-bordered input-sm"
           placeholder="Save as..."
+          required
         />
       </label>
       <div className="flex flex-row items-center">

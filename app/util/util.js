@@ -1,3 +1,4 @@
+// addAuth adds the Authorization header to a request.
 export function addAuth(req) {
   return {
     ...req,
@@ -8,6 +9,7 @@ export function addAuth(req) {
   };
 }
 
+// buildDecisionParams returns the skeleton structure for a decision request.
 export function buildDecisionParams(fieldValues) {
   return {
     data: {

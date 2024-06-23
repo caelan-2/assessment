@@ -1,8 +1,11 @@
-import DisplayBatch from "./display_batch";
-import DisplaySingle from "./display_single";
-import DisplaySaved from "./display_saved";
-import DisplayRemote from "./display_remote";
+import DisplayNewDecision from "./display_new_decision";
+import DisplaySavedDecisions from "./display_saved_decisions";
+import DisplayNewBatch from "./display_new_batch";
+import DisplayActiveBatches from "./display_active_batches";
+import * as constants from "@/app/constants/constants";
 
+// DisplayContainer is the container that wraps all "Display" components.
+// This is the right side of the main content.
 export default function DisplayContainer({
   selectedTab,
   selectedModel,
@@ -12,35 +15,39 @@ export default function DisplayContainer({
   setPrevSavedDecisionID,
 }) {
   switch (selectedTab) {
-    case "single":
+    case constants.MAIN_TABS.NEW_DECISION.id:
       return (
         <Display data={decision}>
-          <DisplaySingle
+          <DisplayNewDecision
             prevSavedDecisionID={prevSavedDecisionID}
             setPrevSavedDecisionID={setPrevSavedDecisionID}
             decision={decision}
-          ></DisplaySingle>
+          ></DisplayNewDecision>
         </Display>
       );
 
-    case "batch":
+    case constants.MAIN_TABS.SAVED_DECISIONS.id:
+      return (
+        <Display data={{}}>
+          <DisplaySavedDecisions
+            selectedModel={selectedModel}
+          ></DisplaySavedDecisions>
+        </Display>
+      );
+
+    case constants.MAIN_TABS.NEW_BATCH.id:
       return (
         <Display data={batchResult}>
-          <DisplayBatch batchResult={batchResult}></DisplayBatch>
+          <DisplayNewBatch batchResult={batchResult}></DisplayNewBatch>
         </Display>
       );
 
-    case "saved":
+    case constants.MAIN_TABS.ACTIVE_BATCHES.id:
       return (
         <Display data={{}}>
-          <DisplaySaved selectedModel={selectedModel}></DisplaySaved>
-        </Display>
-      );
-
-    case "remote":
-      return (
-        <Display data={{}}>
-          <DisplayRemote selectedModel={selectedModel}></DisplayRemote>
+          <DisplayActiveBatches
+            selectedModel={selectedModel}
+          ></DisplayActiveBatches>
         </Display>
       );
 
@@ -49,6 +56,7 @@ export default function DisplayContainer({
   }
 }
 
+// Display is a wrapper container that generically handles displaying "no data" placeholder and errors.
 function Display({ data, children }) {
   if (!data) {
     return <div>Nothing to display yet.</div>;

@@ -1,11 +1,16 @@
 import * as url from "@/app/url/url";
 import { useEffect, useState } from "react";
 
-export default function DisplaySaved({ selectedModel }) {
+// DisplaySavedDecisions is a component that is nested in the DisplayContainer.
+// this is used to display decisions that are saved to the DB.
+export default function DisplaySavedDecisions({ selectedModel }) {
+  // searchText stores the search query.
   const [searchText, setSearchText] = useState("");
+  // decisions stores the decisions to display after a search is made.
   const [decisions, setDecisions] = useState(null);
+  // search makes a request to find decisions from the DB.
   function search() {
-    fetch(url.localApiEndpoint(`single/load`), {
+    fetch(url.localApiEndpoint("load"), {
       method: "POST",
       body: JSON.stringify({
         "save-name": searchText,
@@ -21,7 +26,7 @@ export default function DisplaySaved({ selectedModel }) {
     search();
   }, [selectedModel]);
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full mt-4">
       <div>
         Use the 'Model' select on the left to choose a model to search from.
       </div>
@@ -49,28 +54,41 @@ export default function DisplaySaved({ selectedModel }) {
           </label>
         </form>
       </label>
-      <ItemsComponent
+      <ItemsContainer
         decisions={decisions}
         selectedModel={selectedModel}
-      ></ItemsComponent>
+        search={search}
+      ></ItemsContainer>
     </div>
   );
 }
 
-function ItemsComponent({ decisions, selectedModel }) {
+function ItemsContainer({ decisions, selectedModel, search }) {
   if (!decisions || decisions.length === 0) {
     return <div>Nothing found for model: {selectedModel.attributes.name}</div>;
   }
   return (
     <div>
       {decisions?.map((decision) => {
-        return <SingleItem key={decision._id} decision={decision}></SingleItem>;
+        return (
+          <Item key={decision._id} decision={decision} search={search}></Item>
+        );
       })}
     </div>
   );
 }
 
-function SingleItem({ decision }) {
+function Item({ decision, search }) {
+  function deleteSelf() {
+    fetch(url.localApiEndpoint("delete"), {
+      method: "POST",
+      body: JSON.stringify({ _id: decision._id }),
+    })
+      .then((res) => res.json())
+      .then((payload) => {
+        search();
+      });
+  }
   return (
     <div className="card card-compact w-full bg-base-100 shadow-xl mt-4 p-0">
       <div className="card-body">
@@ -79,7 +97,9 @@ function SingleItem({ decision }) {
         <div>Confidence: {decision.attributes.confidence}</div>
         <div>Timestamp: {decision.attributes.timestamp}</div>
         <div className="card-actions justify-end">
-          <button className="btn btn-sm btn-error">Delete</button>
+          <button className="btn btn-sm btn-error" onClick={deleteSelf}>
+            Delete
+          </button>
         </div>
       </div>
     </div>

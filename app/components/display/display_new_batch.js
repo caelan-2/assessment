@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-
-export default function DisplayBatch({ batchResult }) {
+// DisplayNewBatch is a component that is nested in the DisplayContainer.
+// this is used to display the result from a request for a batch upload to the TOM API.
+export default function DisplayNewBatch({ batchResult }) {
   return (
     <div className="flex flex-col items-center">
       <div className="text-3xl m-2">Jobs for Batch</div>

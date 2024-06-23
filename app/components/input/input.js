@@ -1,5 +1,9 @@
-import Single from "./input_single";
-import Batch from "./input_batch";
+import InputNewDecision from "./input_new_decision";
+import InputNewBatch from "./input_new_batch";
+import * as constants from "@/app/constants/constants";
+
+// InputContainer is the container that wraps all "Input" components.
+// This is the left side of the main content.
 export default function InputContainer({
   selectedTab,
   selectedModel,
@@ -7,20 +11,20 @@ export default function InputContainer({
   setBatchResult,
 }) {
   switch (selectedTab) {
-    case "single":
+    case constants.MAIN_TABS.NEW_DECISION.id:
       return (
-        <Single
+        <InputNewDecision
           setDecision={setDecision}
           selectedModel={selectedModel}
-        ></Single>
+        ></InputNewDecision>
       );
 
-    case "batch":
+    case constants.MAIN_TABS.NEW_BATCH.id:
       return (
-        <Batch
+        <InputNewBatch
           setBatchResult={setBatchResult}
           selectedModel={selectedModel}
-        ></Batch>
+        ></InputNewBatch>
       );
 
     default:
