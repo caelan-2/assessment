@@ -35,7 +35,6 @@ export default function InputNewDecision({ selectedModel, setDecision }) {
   }
   return (
     <form
-      id="input-new-decision-form"
       className="flex flex-col p-4"
       onSubmit={(e) => {
         e.preventDefault();

@@ -33,7 +33,6 @@ export default function InputNewBatch({ selectedModel, setBatchResult }) {
 
   return (
     <form
-      id="input-batch-form"
       className="flex flex-col p-4"
       onSubmit={(e) => {
         e.preventDefault();

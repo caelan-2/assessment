@@ -36,7 +36,6 @@ export default function DisplaySavedDecisions({ selectedModel }) {
           <span className="label-text">Filter decisions</span>
         </div>
         <form
-          id="search-database-form"
           onSubmit={(e) => {
             e.preventDefault();
             search();
@@ -47,7 +46,7 @@ export default function DisplaySavedDecisions({ selectedModel }) {
               onChange={(e) => setSearchText(e.target.value)}
               type="text"
               className="grow"
-              placeholder="Enter name or regular expression here..."
+              placeholder="Enter decision name or regular expression here..."
             />
             <button type="submit" className="btn btn-sm">
               Filter
@@ -90,7 +89,7 @@ function Item({ decision, search }) {
       body: JSON.stringify({ _id: decision._id }),
     })
       .then((res) => res.json())
-      .then((payload) => {
+      .then(() => {
         search();
       });
   }
@@ -98,9 +97,18 @@ function Item({ decision, search }) {
     <div className="card card-compact w-full bg-base-100 shadow-xl mt-4 p-0">
       <div className="card-body">
         <h2 className="card-title">{decision["save-name"]}</h2>
-        <div>Decision: {decision.attributes.decision}</div>
-        <div>Confidence: {decision.attributes.confidence}</div>
-        <div>Timestamp: {decision.attributes.timestamp}</div>
+        <div>
+          <span className="text-gray-400">Decision:</span>{" "}
+          {decision.attributes.decision}
+        </div>
+        <div>
+          <span className="text-gray-400">Confidence:</span>{" "}
+          {decision.attributes.confidence}
+        </div>
+        <div>
+          <span className="text-gray-400">Timestamp:</span>:{" "}
+          {decision.attributes.timestamp}
+        </div>
         <div className="card-actions justify-end">
           <button className="btn btn-sm btn-error" onClick={deleteSelf}>
             Delete

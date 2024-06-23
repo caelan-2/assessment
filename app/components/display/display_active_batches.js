@@ -89,7 +89,6 @@ export default function DisplayActiveBatches({ selectedModel }) {
           <span className="label-text">Filter results</span>
         </div>
         <form
-          id="search-remote-form"
           onSubmit={(e) => {
             e.preventDefault();
             search();
@@ -204,9 +203,15 @@ function FileItem({ selectedModel, file, retrieve }) {
         >
           <div className="card-body">
             <h2 className="card-title">{file.filename}</h2>
-            <div>ID: {file.id}</div>
-            <div>Size: {file.size}</div>
-            <div>Timestamp: {file.timestamp}</div>
+            <div>
+              <span className="text-gray-400">ID:</span> {file.id}
+            </div>
+            <div>
+              <span className="text-gray-400">Size:</span> {file.size}
+            </div>
+            <div>
+              <span className="text-gray-400">Timestamp:</span> {file.timestamp}
+            </div>
             {file.errors ? (
               <div>
                 {file.errors.map((error, i) => {

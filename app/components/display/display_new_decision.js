@@ -78,7 +78,7 @@ function SaveForm({ handleSubmit, setSaveName, hideSaveBtn }) {
     return <div className="text-green-500 text-xl ml-2">Saved!</div>;
   }
   return (
-    <form id="display-new-decision-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <label className="form-control my-1">
         <div className="label pb-0">
           <span className="label-text">
