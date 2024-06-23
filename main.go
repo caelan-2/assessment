@@ -12,7 +12,7 @@ import (
 var (
 	mongoURL = "mongodb://127.0.0.1:27017"
 	collectionName = "caelan-assessment"
-	apiTokenFile = "api-token"
+	apiTokenFile = "demo-token"
 	noBuild = false
 )
 

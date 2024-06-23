@@ -81,7 +81,7 @@ To use custom configuration, execute the binary with the desired config options:
 
 - -mongo-url: is the URL for the MongoDB instance to be used. (default: "mongodb://127.0.0.1:27017")
 - -table: is the name of the collection (table) to be used by the app. (default: "caelan-assessment")
-- -token-file: is the name of the file that contains the API authorization token. (default: "api-token")
+- -token-file: is the name of the file that contains the API authorization token. (default: "demo-token")
 - -nobuild: is used to skip the build step, this is useful if the build step has already been run.
 
 NOTE: The provided token in this repository is a demo token. Providing your own token file or editing the provided token file with a valid token is required for non-demo use.
